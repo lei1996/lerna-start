@@ -4,7 +4,9 @@ const options = {
     // reconnectionDelay: 1000,
 };
 
+// 初始化实例
 const socket = io('//localhost:7777', options);
+const userSocket = io('//localhost:7777/user', options);
 
 
 console.log(1111);

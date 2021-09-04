@@ -2,7 +2,9 @@ import React from 'react';
 import { css } from 'linaria';
 import socket from './socket';
 
-socket.emit('message', '什么鬼');
+socket.on('message', (message) => {
+  console.log(message, 'aaa -');
+});
 
 const styles = {
   title: css`
