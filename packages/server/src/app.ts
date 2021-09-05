@@ -9,7 +9,7 @@ const app = new Koa();
 const httpServer = createServer(app.callback());
 const io = new Server(httpServer, {
   cors: {
-    origin: '*',
+    origin: ['http://localhost:8080'] || '*',
     credentials: true,
   },
   pingTimeout: 10000,
@@ -48,14 +48,18 @@ io.on('connection', (socket: Socket) => {
   });
 
   socket.on('joinRoom', (ctx) => {
-    // 这里是将用户加入某个 room 房间
+    // 这里是将用户加入某个 room 或者 array[room] 房间
     socket.join(ctx);
   });
+
+  // socket.use();
 
   // 断开连接
   socket.on('disconnection', () => {
     console.log('disconnection');
   });
 });
+
+// io.use();
 
 export default httpServer;
