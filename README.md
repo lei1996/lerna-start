@@ -17,3 +17,9 @@ Lerna Start server and client
 - `yarn dev:client` start dev client
 - `yarn build:client` build prod client
 - `npx lerna add [--scope xxx] [--dev] yyy` 为 scope=xxx 包添加 dev 依赖 yyy, 不加 scope 则给所有包添加依赖, 不加 dev 则添加非 dev 依赖
+
+windows 需要用 docker Desktop 中的 Dev Environments. (因为windows的文件系统与linux/unix 的不同，yarn install 会报错)
+    1. 选择create - Remote git repository - git url
+    2. 等待创建完毕, 然后 open in vscode.
+
+之后就可以开心的开发了.

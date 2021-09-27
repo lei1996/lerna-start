@@ -1,0 +1,48 @@
+version: "3.7"
+services:
+  mongodb:
+    # 镜像
+    image: mongo
+    # 重启策略
+    restart: unless-stopped
+    # 注入环境变量
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: passwd
+    # 卷 - 用于在宿主机存储数据，而不是在容器中存储，容器需要保持简单，不变
+    volumes:
+      - db-data:/data/db
+    # 向外映射的端口
+    ports:
+      - 27017:27017
+    # 虚拟网卡
+    networks:
+      - lerna-app
+  
+  analysis:
+    image: node:16
+    # 保持容器持续运行
+    tty: true        # docker run -t
+    stdin_open: true # docker run -i
+    # 开放端口，随机分布到宿主机
+    ports:
+      - "7777"
+    # 环境变量
+    environment:
+      # - Database=mongodb://mongo:passwd@mongodb:27017/test?authSource=admin
+      - Database=mongodb://localhost:27017/test
+    # 依赖于某个容器，一般需要先初始化数据库才能启用 server 服务
+    depends_on:
+      - mongodb
+    # 虚拟网卡
+    networks:
+      - lerna-app
+
+# 卷
+volumes:
+  db-data:
+
+# 虚拟网卡
+networks:
+  lerna-app:
+    driver: bridge
